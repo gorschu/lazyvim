@@ -1,0 +1,29 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:best-practices",
+    ":enablePreCommit"
+  ],
+  "prConcurrentLimit": 3,
+  "prHourlyLimit": 2,
+  "labels": [
+    "dependencies"
+  ],
+  "reviewersFromCodeOwners": true,
+  "assigneesFromCodeOwners": true,
+  "packageRules": [
+    {
+      "description": "Group pre-commit hook updates",
+      "matchManagers": ["pre-commit"],
+      "groupName": "pre-commit-hooks",
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps",
+      "minimumReleaseAge": "3 days"
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "semanticCommitType": "fix",
+    "semanticCommitScope": "security"
+  },
+  "osvVulnerabilityAlerts": true
+}

@@ -1,0 +1,28 @@
+# mise configuration for nvim config
+# Automatically installs pre-commit hooks on directory entry
+
+[settings]
+experimental = true
+
+[tools]
+prek = "latest"
+
+[tasks.install-hooks]
+description = "Install pre-commit hooks using prek"
+run = """
+#!/bin/sh
+if command -v prek >/dev/null 2>&1; then
+  prek install --hook-type commit-msg
+  prek install
+  echo "prek hooks installed"
+else
+  echo "prek not available yet - mise will install it automatically"
+fi
+"""
+
+[tasks.setup]
+description = "Run initial setup"
+depends = ["install-hooks"]
+
+[hooks]
+enter = "mise run install-hooks"

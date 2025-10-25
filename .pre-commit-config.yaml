@@ -1,0 +1,39 @@
+repos:
+  # Secret scanning
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.28.0
+    hooks:
+      - id: gitleaks
+
+  # Commit message format
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.3.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+
+  # Lua formatting
+  - repo: https://github.com/JohnnyMorganz/StyLua
+    rev: v2.3.0
+    hooks:
+      - id: stylua
+        args: ["--config-path", "stylua.toml"]
+
+  # Lua linting
+  - repo: https://github.com/lunarmodules/luacheck
+    rev: v1.2.0
+    hooks:
+      - id: luacheck
+        args: ["--globals", "vim"]
+
+  # General file cleanup
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+      - id: check-yaml
+      - id: check-json
