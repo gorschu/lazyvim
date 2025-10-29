@@ -6,6 +6,7 @@ experimental = true
 
 [tools]
 prek = "latest"
+stylua = "latest"
 
 [tasks.install-hooks]
 description = "Install pre-commit hooks using prek"
