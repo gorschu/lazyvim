@@ -15,6 +15,9 @@ return {
           neorg = false,
         },
       })
+      opts.statuscolumn = vim.tbl_deep_extend("force", opts.statuscolumn or {}, {
+        enabled = true,
+      })
     end,
   },
 }
