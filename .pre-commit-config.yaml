@@ -1,7 +1,7 @@
 repos:
   # Secret scanning
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.28.0
+    rev: v8.29.1
     hooks:
       - id: gitleaks
 
@@ -14,7 +14,7 @@ repos:
 
   # Lua formatting
   - repo: https://github.com/JohnnyMorganz/StyLua
-    rev: v2.3.0
+    rev: v2.3.1
     hooks:
       - id: stylua-system
         args: ["--config-path", "stylua.toml"]
