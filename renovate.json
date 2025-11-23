@@ -4,6 +4,7 @@
     "config:best-practices",
     ":enablePreCommit"
   ],
+  "forkProcessing": "enabled",
   "prConcurrentLimit": 3,
   "prHourlyLimit": 2,
   "labels": [
