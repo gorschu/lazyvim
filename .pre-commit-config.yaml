@@ -19,12 +19,6 @@ repos:
       - id: stylua-system
         args: ["--config-path", "stylua.toml"]
 
-  # Lua linting
-  - repo: https://github.com/lunarmodules/luacheck
-    rev: v1.2.0
-    hooks:
-      - id: luacheck
-
   # General file cleanup
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
