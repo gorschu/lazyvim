@@ -4,6 +4,18 @@ return {
   {
     "saghen/blink.cmp",
     opts = function(_, opts)
+      opts.keymap = vim.tbl_deep_extend("force", opts.keymap or {}, { preset = "super-tab" })
+
+      -- Don't auto-insert completions while navigating the menu; only apply on confirm
+      opts.completion = vim.tbl_deep_extend("force", opts.completion or {}, {
+        list = {
+          selection = {
+            preselect = true,
+            auto_insert = false,
+          },
+        },
+      })
+
       -- Ensure nested structure exists (without arrays)
       opts.sources = vim.tbl_deep_extend("force", opts.sources or {}, {
         providers = {
