@@ -14,7 +14,7 @@ repos:
 
   # Lua formatting
   - repo: https://github.com/JohnnyMorganz/StyLua
-    rev: v2.4.0
+    rev: v2.4.1
     hooks:
       - id: stylua-system
         args: ["--config-path", "stylua.toml"]
