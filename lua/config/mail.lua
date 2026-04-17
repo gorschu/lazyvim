@@ -2,8 +2,12 @@
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "mail",
   callback = function()
-    vim.opt_local.textwidth = 72
-    vim.opt_local.formatoptions:append("aw") -- format-flowed
+    local tw = 72
+    vim.opt_local.textwidth = tw
+    vim.opt_local.formatoptions:append("w") -- format-flowed (trailing space = paragraph continues)
+    vim.opt_local.formatoptions:remove("a") -- no auto-reflow, it mangles flowed paragraphs
+    vim.opt_local.formatexpr = ""
+    vim.opt_local.formatprg = "par w" .. tw .. "q"
     vim.opt_local.spell = true
     vim.opt_local.spelllang = "en,de"
   end,
