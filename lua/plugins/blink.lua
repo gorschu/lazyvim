@@ -25,14 +25,38 @@ return {
         },
       })
 
-      -- Add project-local snippet paths (we need to support .vscode locations)
-      -- Extend snippet search paths array
-      opts.sources.providers.snippets.opts.search_paths = opts.sources.providers.snippets.opts.search_paths or {}
-      vim.list_extend(opts.sources.providers.snippets.opts.search_paths, {
-        vim.fn.stdpath("config") .. "/snippets", -- Global: ~/.config/nvim/snippets
-        vim.fn.getcwd() .. "/.nvim/snippets", -- Project
-        vim.fn.getcwd() .. "/.vscode", -- Project
-      })
+      local provider = opts.sources.providers.snippets
+      local source_opts = vim.deepcopy(provider.opts)
+      local paths = source_opts.search_paths or { vim.fn.stdpath("config") .. "/snippets" }
+      local projects = {}
+      provider.override = provider.override or {}
+      local get_completions = provider.override.get_completions
+      local reload = provider.override.reload
+
+      -- Keep Blink's built-in parser and cache each project's .json snippets separately.
+      provider.override.get_completions = function(_, context, callback)
+        local root = LazyVim.root.get({ buf = context.bufnr })
+        if not projects[root] then
+          local project_opts = vim.deepcopy(source_opts)
+          project_opts.search_paths = vim.list_extend(vim.deepcopy(paths), {
+            root .. "/.nvim/snippets",
+            root .. "/.vscode",
+          })
+          projects[root] = require("blink.cmp.sources.snippets").new(project_opts)
+        end
+        if get_completions then
+          return get_completions(projects[root], context, callback)
+        end
+        return projects[root]:get_completions(context, callback)
+      end
+
+      provider.override.reload = function(source)
+        projects = {}
+        if reload then
+          return reload(source)
+        end
+        return source:reload()
+      end
     end,
   },
 }
