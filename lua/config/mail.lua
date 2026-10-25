@@ -1,5 +1,8 @@
 -- Mail compose settings
+local group = vim.api.nvim_create_augroup("user_mail", { clear = true })
+
 vim.api.nvim_create_autocmd("FileType", {
+  group = group,
   pattern = "mail",
   callback = function()
     local tw = 72
@@ -13,11 +16,22 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Jump past headers to body when composing
+-- Jump past headers once when opening a draft, including under a custom TMPDIR.
 vim.api.nvim_create_autocmd("BufWinEnter", {
-  pattern = "/tmp/neomutt-*",
-  callback = function()
-    vim.fn.search("^$") -- find first blank line (end of headers)
-    vim.cmd("normal! j") -- move to first line of body
+  group = group,
+  pattern = "*/neomutt-*",
+  callback = function(args)
+    -- The pattern's * also matches /, so require a draft filename, not a neomutt-* directory.
+    if not vim.fs.basename(args.file):match("^neomutt%-") or vim.b[args.buf].mail_body_positioned then
+      return
+    end
+    local lines = vim.api.nvim_buf_get_lines(args.buf, 0, -1, false)
+    for line_number, line in ipairs(lines) do
+      if line == "" then
+        vim.api.nvim_win_set_cursor(0, { math.min(line_number + 1, #lines), 0 })
+        vim.b[args.buf].mail_body_positioned = true
+        break
+      end
+    end
   end,
 })
