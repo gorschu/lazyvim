@@ -9,11 +9,6 @@ return {
       -- Enable image rendering in terminal
       opts.image = vim.tbl_deep_extend("force", opts.image or {}, {
         enabled = true,
-        backend = "auto",
-        integrations = {
-          markdown = true,
-          neorg = false,
-        },
       })
       opts.statuscolumn = vim.tbl_deep_extend("force", opts.statuscolumn or {}, {
         enabled = true,

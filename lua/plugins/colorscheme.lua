@@ -35,7 +35,7 @@ return {
     "catppuccin/nvim",
     lazy = true,
     opts = function(_, opts)
-      opts.flavour = flavor
+      opts.flavour = colorscheme == "catppuccin" and flavor or opts.flavour or default_flavors.catppuccin
       opts.term_colors = true
     end,
   },
@@ -43,7 +43,7 @@ return {
     "folke/tokyonight.nvim",
     lazy = true,
     opts = function(_, opts)
-      opts.style = flavor
+      opts.style = colorscheme == "tokyonight" and flavor or opts.style or default_flavors.tokyonight
       opts.light_style = "day"
       opts.terminal_colors = true
       opts.lualine_bold = true
